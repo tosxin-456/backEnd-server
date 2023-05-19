@@ -33,21 +33,24 @@ async function login(req, res) {
 
 //register
 async function register(req, res) {
-   // const result = validators.registerValidator.safeParse(req.body)
+   console.log(`REQ_BODY:::`, req.body);
+   const {firstname,lastname, email,password,role} = req.body
 
-   // if (!result.success) {
-   //    return res.status(400).json(formatZodError(result.error.issues)).end();
-   // }
-
-   await userModel.create ({
-      firstname: req.body.username,
-      lastname: req.body.username,
-      email: req.body.username,
-      password: req.body.password,
-      role: req.body.role
+   const newUser = new userModel({
+      firstname,
+      lastname,
+      email,
+      password,
+      role
    })
-
-   res.send("user created!!").end();
+ let user;
+   try {
+   user = await newUser.save()
+   res.status(200).json(user)
+   } catch (error) {
+      console.log("err", error)
+      res.status(500).json(error)
+   }
 }
 
 // get recipes

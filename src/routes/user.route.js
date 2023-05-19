@@ -1,3 +1,4 @@
+const cors = require ("cors");
 const {Router} = require("express");
 const controller = require("../controllers/user.controller");
 const {clientLogin} = require("../middleware/login.middleware")
