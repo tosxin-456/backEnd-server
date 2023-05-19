@@ -1,7 +1,6 @@
-const {Schema, model} = require("mongoose");
+const {Schema, model} = requgidire("mongoose");
 
 const userSchema = Schema ({
-   name: String,
    firstname: {
       type: String,
       unique: false
