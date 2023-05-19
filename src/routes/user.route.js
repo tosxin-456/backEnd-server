@@ -10,12 +10,14 @@ router.post('/login', clientLogin, controller.login);
 
 // register
 router.post('/register', controller.register);
+router.get("/all", controller.getAllUsers);
 
 // get recipes
 // router.get('/recipes')
 // router.patch('/recipes')
 router.route('/:id/users')
    .get(controller.getStudent)
+   // .get(controller.getAllUsers)
    .patch(controller.updateStudent)
    
 module.exports = {

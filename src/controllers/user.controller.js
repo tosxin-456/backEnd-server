@@ -3,6 +3,15 @@ const validators = require("../validators/user.validator");
 const bcrypt = require("bcrypt")
 const {formatZodError} = require("../utilities/errormessage")
 
+
+// get all users
+async function getAllUsers(req, res) {
+   const user = await userModel.find();
+   
+    res.json(user).end();
+}
+
+
 //login
 async function login(req, res) {
    const result = validators.loginValidator.safeParse(req.body);
@@ -69,12 +78,13 @@ async function updateStudent(req, res) {
       }
    })
 
-   res.send("recipe added").end();
+   res.send("user added").end();
 }
 
 module.exports = {
    login,
    register,
    getStudent,
+   getAllUsers,
    updateStudent
 }
