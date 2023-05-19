@@ -40,7 +40,6 @@ async function register(req, res) {
    // }
 
    await userModel.create ({
-      name: req.body.name,
       firstname: req.body.username,
       lastname: req.body.username,
       email: req.body.username,
