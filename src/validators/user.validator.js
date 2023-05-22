@@ -1,28 +1,28 @@
 const {z} = require("zod");
-const {recipeValidator} = require("./recipe.validator")
 
 const loginValidator = z.object({
-   username: z.string(),
-   password: z.string().min(8)
+   email: z.string(),
+   password: z.string()
 });
 
 const registerValidator = z.object({
-   name: z.string(),
-   role: z.enum(['CHEF', "SOUS_CHEF"])
+   firstname: z.string(),
+   lastname: z.string(),
+   role: z.enum(['student', "mentor"])
 }).and(loginValidator);
 
-const getRecipesValidator = z.object({
+const getUserValidator = z.object({
    id: z.string().length(24)
-})
+});
 
-const updateRecipesValidator = z.object({
-   recipes: recipeValidator.array()
-}).and(getRecipesValidator);
+// const updateUserValidator = z.object({
+//    User: recipeValidator.array()
+// }).and(getUserValidator);
 
 
 module.exports = {
    loginValidator,
    registerValidator,
-   getRecipesValidator,
-   updateRecipesValidator
+   getUserValidator,
+   // updateUserValidator
 };

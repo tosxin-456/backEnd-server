@@ -1,6 +1,6 @@
 const {userModel} = require("../models/user.model");
 const validators = require("../validators/user.validator");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const {formatZodError} = require("../utilities/errormessage")
 
 
@@ -24,7 +24,7 @@ async function login(req, res) {
 
    if (!user) return res.send("user not found!!").end();
 
-   if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
+   // if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
 
    user.password = undefined;
 
@@ -33,7 +33,13 @@ async function login(req, res) {
 
 //register
 async function register(req, res) {
-   console.log(`REQ_BODY:::`, req.body);
+   // console.log(`REQ_BODY:::`, req.body);
+
+   const result = validators.registerValidator.safeParse(req.body);
+
+   if (!result.success) {
+      return res.status(400).json(formatZodError(result.error.issues)).end();
+   }
    const {firstname,lastname, email,password,role} = req.body
 
    const newUser = new userModel({

@@ -2,7 +2,7 @@ const cors = require ("cors");
 
 // require('dotnev').config();
 const express = require("express")
-const {recipesRouter} = require("./routes/recipe.route");
+// const {recipesRouter} = require("./routes/recipe.route");
 const mongoose = require("mongoose");
 const { usersRouter } = require("./routes/user.route");
 
@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors("*"));
 app.use(express.json()); // Helps our app to accept json data
-app.use('/recipes', recipesRouter);
+// app.use('/recipes', recipesRouter);
 app.use('/users', usersRouter)
 
 
