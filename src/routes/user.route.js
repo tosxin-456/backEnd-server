@@ -16,7 +16,7 @@ router.get("/all", controller.getAllUsers);
 // get recipes
 // router.get('/recipes')
 // router.patch('/recipes')
-router.route('/:id/users')
+router.route('/:id')
    .get(controller.getStudent)
    // .get(controller.getAllUsers)
    .patch(controller.updateStudent)

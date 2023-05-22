@@ -1,14 +1,14 @@
-const {userModel} = require("../models/user.model");
-const validators = require("../validators/user.validator");
-const bcrypt = require("bcrypt");
+const {mentorModel} = require("../models/mentor.models");
+const validators = require("../validators/mentor.validator");
+// const bcrypt = require("bcrypt");
 const {formatZodError} = require("../utilities/errormessage")
 
 
-// get all users
-async function getAllUsers(req, res) {
-   const user = await userModel.find();
+// get all mentors
+async function getAllMentors(req, res) {
+   const mentor = await mentorModel.find();
    
-    res.json(user).end();
+    res.json(mentor).end();
 }
 
 
@@ -20,20 +20,20 @@ async function login(req, res) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
 
-   const user = await userModel.findOne({email: req.body.email});
+   const mentor = await mentorModel.findOne({email: req.body.email});
 
-   if (!user) return res.send("user not found!!").end();
+   if (!mentor) return res.send("user not found!!").end();
 
-   // if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
+   // if (!bcrypt.compareSync(req.body.password, mentor.password)) return res.send("password incorrect!!").end();
 
-   user.password = undefined;
+   mentor.password = undefined;
 
-   res.json(user).end();
+   res.json(mentor).end();
 }
 
 //register
-async function register(req, res) {
-   console.log(`REQ_BODY:::`, req.body);
+async function registerMentor(req, res) {
+   // console.log(`REQ_BODY:::`, req.body);
 
    const result = validators.registerValidator.safeParse(req.body);
 
@@ -42,17 +42,16 @@ async function register(req, res) {
    }
    const {firstname,lastname, email,password,role} = req.body
 
-   const newUser = new userModel({
+   const newmentors = new mentorModel({
       firstname,
       lastname,
       email,
-      password,
-      role
+      password
    })
- let user;
+ let mentors;
    try {
-   user = await newUser.save()
-   res.status(200).json(user)
+   mentors = await newmentors.save()
+   res.status(200).json(mentors)
    } catch (error) {
       console.log("err", error)
       res.status(500).json(error)
@@ -60,39 +59,39 @@ async function register(req, res) {
 }
 
 // get recipes
-async function getStudent(req, res) {
+async function getMentor(req, res) {
    const result = validators.getRecipesValidator.safeParse(req.body);
 
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
 
-   const user = await userModel.findById(req.params.id);
+   const mentors = await mentorsModel.findById(req.params.id);
 
-   res.json(user.recipes).end();
+   res.json(mentors.recipes).end();
 }
 
 //updateRecipes
-async function updateStudent(req, res) {
+async function updateMentor(req, res) {
    const result = validators.updateRecipesValidator.safeParse(req.body);
 
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
 
-   await userModel.updateOne({_id: req.params.id}, {
+   await mentorsModel.updateOne({_id: req.params.id}, {
       $push: {
          recipes: {$each: req.body.recipes}
       }
    })
 
-   res.send("user added").end();
+   res.send("mentors added").end();
 }
 
 module.exports = {
    login,
-   register,
-   getStudent,
-   getAllUsers,
-   updateStudent
+   registerMentor,
+   getMentor,
+   getAllMentors,
+   updateMentor
 }

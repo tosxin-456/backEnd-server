@@ -7,10 +7,10 @@ const loginValidator = z.object({
 
 const registerValidator = z.object({
    firstname: z.string(),
-   lastname: z.string(),
+   lastname: z.string()
 }).and(loginValidator);
 
-const getUserValidator = z.object({
+const getMentorValidator = z.object({
    id: z.string().length(24)
 });
 
@@ -22,6 +22,6 @@ const getUserValidator = z.object({
 module.exports = {
    loginValidator,
    registerValidator,
-   getUserValidator,
+   getMentorValidator,
    // updateUserValidator
 };
