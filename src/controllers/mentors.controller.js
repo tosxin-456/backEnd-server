@@ -60,7 +60,7 @@ async function registerMentor(req, res) {
 
 // get recipes
 async function getMentor(req, res) {
-   const result = validators.getRecipesValidator.safeParse(req.body);
+   const result = validators.getMentorValidator.safeParse(req.body);
 
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();

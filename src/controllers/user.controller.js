@@ -61,7 +61,7 @@ async function register(req, res) {
 
 // get recipes
 async function getStudent(req, res) {
-   const result = validators.getRecipesValidator.safeParse(req.body);
+   const result = validators.getUserValidator.safeParse(req.body);
 
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
