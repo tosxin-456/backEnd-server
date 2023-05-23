@@ -1,6 +1,6 @@
 const {mentorModel} = require("../models/mentor.models");
 const validators = require("../validators/mentor.validator");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const {formatZodError} = require("../utilities/errormessage")
 
 
@@ -15,32 +15,39 @@ async function getAllMentors(req, res) {
 //login
 async function login(req, res) {
    const result = validators.loginValidator.safeParse(req.body);
-
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
+   
+   try {
+      const check = await mentorModel.findOne({name:req.body.name})
 
-   const mentor = await mentorModel.findOne({email: req.body.email});
-
-   if (!mentor) return res.send("user not found!!").end();
-
-   if (!bcrypt.compareSync( mentor.password, req.body.password)) return res.send("password incorrect!!").end();
-
-   mentor.password = undefined;
-
-   res.json(mentor).end();
+      if(check.password===req.body.password){
+          res.send("successfully login to dashboard")
+      }
+      else{
+          res.send("wrong password")
+      }
+  } catch{
+      res.send("wrong details")
+  }
+   // const mentor = await mentorModel.findOne({email: req.body.email});
+   // if (!mentor) return res.send("user not found!!").end();
+   // // if (!bcrypt.compareSync(req.body.password, mentor.password)) return res.send("password incorrect!!").end();
+   // mentor.password = undefined;
+   // res.json(mentor).end();
 }
 
 //register
 async function registerMentor(req, res) {
-   // console.log(`REQ_BODY:::`, req.body);
-
    const result = validators.registerValidator.safeParse(req.body);
 
    if (!result.success) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
-   const {firstname,lastname, email,password,role} = req.body
+   const {firstname, lastname, email, password} = req.body;
+
+   // const hashedPassword = bcrypt.hashSync(password, 64);
 
    const newmentors = new mentorModel({
       firstname,
@@ -66,7 +73,7 @@ async function getMentor(req, res) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
 
-   const mentors = await mentorsModel.findById(req.params.id);
+   const mentors = await mentorModel.findById(req.params.id);
 
    res.json(mentors.recipes).end();
 }
@@ -79,7 +86,7 @@ async function updateMentor(req, res) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
 
-   await mentorsModel.updateOne({_id: req.params.id}, {
+   await mentorModel.updateOne({_id: req.params.id}, {
       $push: {
          recipes: {$each: req.body.recipes}
       }
