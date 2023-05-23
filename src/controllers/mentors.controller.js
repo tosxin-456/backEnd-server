@@ -1,6 +1,6 @@
 const {mentorModel} = require("../models/mentor.models");
 const validators = require("../validators/mentor.validator");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const {formatZodError} = require("../utilities/errormessage")
 
 
@@ -24,7 +24,7 @@ async function login(req, res) {
 
    if (!mentor) return res.send("user not found!!").end();
 
-   // if (!bcrypt.compareSync(req.body.password, mentor.password)) return res.send("password incorrect!!").end();
+   if (!bcrypt.compareSync( mentor.password, req.body.password)) return res.send("password incorrect!!").end();
 
    mentor.password = undefined;
 

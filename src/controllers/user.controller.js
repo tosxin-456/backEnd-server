@@ -24,9 +24,9 @@ async function login(req, res) {
 
    if (!user) return res.send("user not found!!").end();
 
-   // if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
+   if (!bcrypt.compareSync(user.password ,req.body.password )) return res.send("password incorrect!!").end();
 
-   user.password = undefined;
+   user.password === undefined;
 
    res.json(user).end();
 }
