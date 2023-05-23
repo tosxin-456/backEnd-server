@@ -24,10 +24,10 @@ async function login(req, res) {
             res.send("successfully login to dashboard")
         }
         else{
-            res.send("wrong password")
+            res.json("wrong password")
         }
     } catch{
-        res.send("wrong details")
+        res.json("wrong details")
     }
 
 	// const user = await userModel.findOne({email: req.body.email});
