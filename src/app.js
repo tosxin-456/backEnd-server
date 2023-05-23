@@ -11,7 +11,7 @@ const mongoUrl ="mongodb+srv://Tosin:090711t@cluster0.dex1ht8.mongodb.net/learn-
 // const mongoUrl =process.env.MONGO_URL;
 const app = express();
 
-app.use(cors("*"));
+app.use(cors());
 app.use(express.json()); // Helps our app to accept json data
 // app.use('/recipes', recipesRouter);
 app.use('/student', usersRouter)

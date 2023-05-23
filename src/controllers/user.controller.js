@@ -21,7 +21,7 @@ async function login(req, res) {
         const check = await userModel.findOne({name:req.body.name})
 
         if(check.password===req.body.password){
-            res.send("successfully login to dashboard")
+            res.json("successfully login to user")
         }
         else{
             res.json("wrong password")
