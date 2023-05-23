@@ -26,7 +26,7 @@ async function login(req, res) {
 
    if (!bcrypt.compareSync(user.password ,req.body.password )) return res.send("password incorrect!!").end();
 
-   user.password === undefined;
+   user.password = undefined;
 
    res.json(user).end();
 }
