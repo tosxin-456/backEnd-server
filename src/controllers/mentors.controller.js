@@ -20,14 +20,14 @@ async function login(req, res) {
    }
    
    try {
-      const check = await mentorModel.findOne({name:req.body.name})
+      const check = await mentorModel.findOne({email:req.body.email})
 
-      if(check.password==req.body.password){
+      if(check.password===req.body.password){
           res.json("successfully login to mentors dashboard")
       }
-      // else{
-      //     res.json("wrong password")
-      // }
+      else{
+          res.json("wrong password")
+      }
   } catch{
       res.json("wrong details")
   }

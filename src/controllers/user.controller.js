@@ -18,7 +18,7 @@ async function login(req, res) {
 	}
 
 	try {
-        const check = await userModel.findOne({name:req.body.name})
+        const check = await userModel.findOne({email:req.body.email})
 
         if(check.password===req.body.password){
             res.json("successfully login to user")
