@@ -16,27 +16,27 @@ async function login(req, res) {
 	if (!result.success) {
 	   return res.status(400).json(formatZodError(result.error.issues)).end();
 	}
-
 	try {
-        const check = await userModel.findOne({email:req.body.email})
+		const check = await userModel.findOne({email:req.body.email})
+		if(check.password===req.body.password){
+		   const user = await userModel.findOne({email: req.body.email});
+		   res.json(user)
+		   //  res.json("successfully login to mentors dashboard");
+		}
+		else{
+			res.json("wrong password")
+		}
+	} catch{
+		res.json("wrong details")
+	}
+    
 
-        if(check.password===req.body.password){
-            res.json("successfully login to user");
-			console.log(user)
-        }
-        else{
-            res.json("wrong password")
-        }
-    } catch{
-        res.json("wrong details")
-    }
+}
 
-	// const user = await userModel.findOne({email: req.body.email});
 	// if (!user) return res.send("user not found!!").end();
 	// // if (!bcrypt.compareSync(req.body.password, user.password)) return res.send("password incorrect!!").end();
 	// user.password = undefined;
 	// res.json(user).end();
-}
 
 //register
 async function register(req, res) {
