@@ -25,9 +25,9 @@ async function login(req, res) {
       if(check.password==req.body.password){
           res.json("successfully login to mentors dashboard")
       }
-      else{
-          res.json("wrong password")
-      }
+      // else{
+      //     res.json("wrong password")
+      // }
   } catch{
       res.json("wrong details")
   }
