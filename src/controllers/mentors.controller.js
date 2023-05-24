@@ -19,11 +19,13 @@ async function login(req, res) {
       return res.status(400).json(formatZodError(result.error.issues)).end();
    }
    
+
    try {
       const check = await mentorModel.findOne({email:req.body.email})
-
       if(check.password===req.body.password){
-          res.json("successfully login to mentors dashboard")
+         const mentor = await mentorModel.findOne({email: req.body.email});
+         res.json(mentor)
+         //  res.json("successfully login to mentors dashboard");
       }
       else{
           res.json("wrong password")
@@ -31,7 +33,6 @@ async function login(req, res) {
   } catch{
       res.json("wrong details")
   }
-   // const mentor = await mentorModel.findOne({email: req.body.email});
    // if (!mentor) return res.send("user not found!!").end();
    // // if (!bcrypt.compareSync(req.body.password, mentor.password)) return res.send("password incorrect!!").end();
    // mentor.password = undefined;
